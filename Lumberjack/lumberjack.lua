@@ -11,7 +11,7 @@ function refuel()
   end
 end
 
-
+[[change to use a variable instead of repeating forward()]]
 --moves a turtle 5 spaces forward
 function forfive()
   turtle.forward()
@@ -23,7 +23,7 @@ end
 
 
 --sets up an area to begin treefarming and also plants saplings
-function setup()
+function setup_tree_farm()
   refuel()
   forfive()
   turtle.select(2)
@@ -32,7 +32,7 @@ end
 
 
 --this plants the saplings
-function replant()
+function replant_saplings()
   refuel()
   turtle.select(3)
   forfive()
@@ -41,9 +41,9 @@ end
 
 
 --clears the turtle/computer's interface.
-function clear()
+function clear_interface()
   sleep(1)
-  term.clear()
+  term.clear_interface()
   term.setCursorPos(1, 1)
 end
 
@@ -63,7 +63,7 @@ end
 
 --checks to see if everything is in order to begin a function
 function setup_check()
-  if turtle.getItemCount(2) < 64 and turtle.getItemCount(4) < 64 then
+  if turtle.getItemCount(2) < 64 and turtle.getItemCount(4) < 5 then
     print("Not enough dirt. ABORTING PROGRAM")
     sleep(3)
     os.shutdown()
@@ -77,7 +77,6 @@ end
 --mines trees in a row until it hits a familiar block.
 function lumberjack()
   refuel()
-  pull()
   while not turtle.detect() do
     turtle.forward()
   end
@@ -92,12 +91,11 @@ function lumberjack()
   for n=1,turtle_Y do
     turtle.down()
   end
-  dump()
 end
 
 
 --dumps stuff out of slots 5-16 from the turtle's inventory
-function dump()
+function dump_inventory()
   turtle.turnRight()
   for invvar=5,16 do
     turtle.select(invvar)
@@ -108,20 +106,21 @@ end
 
 
 --pulls saplings from chest to slot 3
-function pull()
+function pull_saplings()
   turtle.up()
   turtle.select(3)
   turtle.suckUp()
   turtle.down()
 end
 
+[[clean up the if, elseif, else statement]]
 
 --opening menu.
-clear()
+clear_interface()
 print("COAL IN SLOT 1, DIRT IN SLOT 2, SAPLINGS IN SLOT 3, COBBLESTONE IN SLOT 4")
-
+term.setCursorPos(5, 1)
 print("Select program. '0' runs setup, '1' runs lumberjack.")
-
+term.setCursorPos(8, 1)
 print("DO NOT RUN LUMBERJACK UNLESS SETUP HAS BEEN RUN FIRST")
 
 run_setup = "0"
@@ -144,7 +143,7 @@ if user_input == (run_setup) then
   print("how many trees do you want to plant?")
   initvar = tonumber(read())
   for n=1,initvar do
-    setup()
+    setup_tree_farm()
   end
   forfive()
   turtle.select(4)
@@ -154,12 +153,13 @@ if user_input == (run_setup) then
   turtle.turnLeft()
   turtle.turnLeft()
   for n=1,initvar do
-    replant()
+    replant_saplings()
   end
   go_home()
 elseif user_input == (run_lumberjack) then
   print("initializing lumberjack program")
-  clear()
+  pull_saplings()
+  clear_interface()
   print("how many trees do you want to cut down?")
   treecount = tonumber(read())
   for n=1,treecount do
@@ -170,9 +170,10 @@ elseif user_input == (run_lumberjack) then
   turtle.turnLeft()
   turtle.turnLeft()
   for n=1,treecount do
-    replant()
+    replant_saplings()
   end
   go_home()
+  dump_inventory()
 else
   print("incorrect command! ABORTING PROGRAM")
   os.shutdown()
