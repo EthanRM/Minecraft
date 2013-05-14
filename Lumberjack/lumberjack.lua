@@ -1,15 +1,16 @@
 --rom/programs/http/pastebin get 
 
---COAL IN SLOT 1, DIRT IN SLOT 2, SAPLINGS IN SLOT 3, COBBLESTONE IN SLOT 16
+--COAL IN SLOT 1, DIRT IN SLOT 2, SAPLINGS IN SLOT 3, COBBLESTONE IN SLOT 4
 
 --refuel
 function refuel()
-  if turtle.getFuelLevel() < 30 then
+  if turtle.getFuelLevel() < 81 then
     print("refueling")
     turtle.select(1)
     turtle.refuel(1)
   end
 end
+
 
 --moves a turtle 5 spaces forward
 function forfive()
@@ -20,6 +21,7 @@ function forfive()
   turtle.forward()
 end
 
+
 --sets up an area to begin treefarming and also plants saplings
 function setup()
   refuel()
@@ -27,6 +29,7 @@ function setup()
   turtle.select(2)
   turtle.placeDown()
 end
+
 
 --this plants the saplings
 function replant()
@@ -37,7 +40,6 @@ function replant()
 end
 
 
-
 --clears the turtle/computer's interface.
 function clear()
   sleep(1)
@@ -45,10 +47,11 @@ function clear()
   term.setCursorPos(1, 1)
 end
 
+
 --returns the turtle to it's starting location
 function go_home()
   refuel()
-  turtle.select(16)
+  turtle.select(4)
   while not turtle.detect() do
     turtle.forward()
   end
@@ -60,7 +63,7 @@ end
 
 --checks to see if everything is in order to begin a function
 function setup_check()
-  if turtle.getItemCount(2) < 5 and turtle.getItemCount(16) < 5 then
+  if turtle.getItemCount(2) < 64 and turtle.getItemCount(4) < 64 then
     print("Not enough dirt. ABORTING PROGRAM")
     sleep(3)
     os.shutdown()
@@ -74,6 +77,7 @@ end
 --mines trees in a row until it hits a familiar block.
 function lumberjack()
   refuel()
+  pull()
   while not turtle.detect() do
     turtle.forward()
   end
@@ -88,13 +92,37 @@ function lumberjack()
   for n=1,turtle_Y do
     turtle.down()
   end
+  dump()
+end
+
+
+--dumps stuff out of slots 5-16 from the turtle's inventory
+function dump()
+  turtle.turnRight()
+  for invvar=5,16 do
+    turtle.select(invvar)
+    turtle.drop()
+  end
+  turtle.turnLeft()
+end
+
+
+--pulls saplings from chest to slot 3
+function pull()
+  turtle.up()
+  turtle.select(3)
+  turtle.suckUp()
+  turtle.down()
 end
 
 
 --opening menu.
 clear()
-print("COAL IN SLOT 1, DIRT IN SLOT 2, SAPLINGS IN SLOT 3, COBBLESTONE IN SLOT 16")
-print("Select program. '0' runs setup, '1' runs lumberjack. DO NOT RUN LUMBERJACK IF YOU HAVE NOT RUN SETUP")
+print("COAL IN SLOT 1, DIRT IN SLOT 2, SAPLINGS IN SLOT 3, COBBLESTONE IN SLOT 4")
+
+print("Select program. '0' runs setup, '1' runs lumberjack.")
+
+print("DO NOT RUN LUMBERJACK UNLESS SETUP HAS BEEN RUN FIRST")
 
 run_setup = "0"
 run_lumberjack = "1"
@@ -104,7 +132,7 @@ if user_input == (run_setup) then
   print("initializing setup program")
   setup_check()
   refuel()
-  turtle.select(16)
+  turtle.select(4)
   turtle.turnLeft()
   turtle.turnLeft()
   turtle.place()
@@ -119,7 +147,7 @@ if user_input == (run_setup) then
     setup()
   end
   forfive()
-  turtle.select(16)
+  turtle.select(4)
   turtle.place()
   turtle.up()
   turtle.place()
