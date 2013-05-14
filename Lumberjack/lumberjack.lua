@@ -80,7 +80,7 @@ function lumberjack()
   turtle.dig()
   turtle.forward()
   turtle_Y = 0
-  if turtle.detectUp() then
+  while turtle.detectUp() do
     turtle.digUp()
     turtle.up()
     turtle_Y = turtle_Y + 1
