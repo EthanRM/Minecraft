@@ -11,15 +11,20 @@ function refuel()
   end
 end
 
-[[change to use a variable instead of repeating forward()]]
+[[try to get it to work as a variable]]
 --moves a turtle 5 spaces forward
-function forfive()
+function forward_five()
   turtle.forward()
   turtle.forward()
   turtle.forward()
   turtle.forward()
   turtle.forward()
 end
+[[function forward_multi(how_far)
+  for i = 1, how_far do
+    turtle.forward(i)
+  end
+end]]
 
 
 --sets up an area to begin treefarming and also plants saplings
@@ -97,8 +102,10 @@ end
 --dumps stuff out of slots 5-16 from the turtle's inventory
 function dump_inventory()
   turtle.turnRight()
-  for invvar=5,16 do
-    turtle.select(invvar)
+  for inventory=5, 16 do
+    turtle.select(inventory)
+    if turtle.getItemCount(inventory) ~= 0 then
+      turtle.drop()
     turtle.drop()
   end
   turtle.turnLeft()
@@ -113,7 +120,31 @@ function pull_saplings()
   turtle.down()
 end
 
-[[clean up the if, elseif, else statement]]
+
+--run_setup supporting function. creates home
+function setup_home()
+  turtle.select(4)
+  turtle.turnLeft()
+  turtle.turnLeft()
+  turtle.place()
+  turtle.up()
+  turtle.place()
+  turtle.turnLeft()
+  turtle.turnLeft()
+  turtle.down()
+end
+
+
+--run_setup supporting function. creates tree farm boundary
+function setup_boundary()
+  turtle.select(4)
+  turtle.place()
+  turtle.up()
+  turtle.place()
+  turtle.turnLeft()
+  turtle.turnLeft()
+end
+
 
 --opening menu.
 clear_interface()
@@ -131,28 +162,15 @@ if user_input == (run_setup) then
   print("initializing setup program")
   setup_check()
   refuel()
-  turtle.select(4)
-  turtle.turnLeft()
-  turtle.turnLeft()
-  turtle.place()
-  turtle.up()
-  turtle.place()
-  turtle.turnLeft()
-  turtle.turnLeft()
-  turtle.down()
+  setup_home()
   print("how many trees do you want to plant?")
-  initvar = tonumber(read())
-  for n=1,initvar do
+  setup_and_plant = tonumber(read())
+  for n=1,setup_and_plant do
     setup_tree_farm()
   end
   forfive()
-  turtle.select(4)
-  turtle.place()
-  turtle.up()
-  turtle.place()
-  turtle.turnLeft()
-  turtle.turnLeft()
-  for n=1,initvar do
+  setup_boundary()
+  for n=1,setup_and_plant do
     replant_saplings()
   end
   go_home()
