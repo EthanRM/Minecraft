@@ -103,6 +103,7 @@ user_input = read()
 if user_input == (run_setup) then
   print("initializing setup program")
   setup_check()
+  refuel()
   turtle.select(16)
   turtle.turnLeft()
   turtle.turnLeft()
@@ -113,8 +114,8 @@ if user_input == (run_setup) then
   turtle.turnLeft()
   turtle.down()
   print("how many trees do you want to plant?")
-  setup = tonumber(read())
-  for n=1,setup do
+  initvar = tonumber(read())
+  for n=1,initvar do
     setup()
   end
   forfive()
@@ -124,7 +125,7 @@ if user_input == (run_setup) then
   turtle.place()
   turtle.turnLeft()
   turtle.turnLeft()
-  for n=1,setup do
+  for n=1,initvar do
     replant()
   end
   go_home()
@@ -132,15 +133,15 @@ elseif user_input == (run_lumberjack) then
   print("initializing lumberjack program")
   clear()
   print("how many trees do you want to cut down?")
-  setup = tonumber(read())
-  for n=1,setup do
+  treecount = tonumber(read())
+  for n=1,treecount do
     lumberjack()
   end
   forfive()
   turtle.up()
   turtle.turnLeft()
   turtle.turnLeft()
-  for n=1,setup do
+  for n=1,treecount do
     replant()
   end
   go_home()
