@@ -30,7 +30,7 @@ end]]
 --sets up an area to begin treefarming and also plants saplings
 function setup_tree_farm()
   refuel()
-  forfive()
+  forward_five()
   turtle.select(2)
   turtle.placeDown()
 end
@@ -40,7 +40,7 @@ end
 function replant_saplings()
   refuel()
   turtle.select(3)
-  forfive()
+  forward_five()
   turtle.placeDown()
 end
 
@@ -48,7 +48,7 @@ end
 --clears the turtle/computer's interface.
 function clear_interface()
   sleep(1)
-  term.clear_interface()
+  term.clear()
   term.setCursorPos(1, 1)
 end
 
@@ -106,6 +106,7 @@ function dump_inventory()
     turtle.select(inventory)
     if turtle.getItemCount(inventory) ~= 0 then
       turtle.drop()
+    end
     turtle.drop()
   end
   turtle.turnLeft()
@@ -149,9 +150,7 @@ end
 --opening menu.
 clear_interface()
 print("COAL IN SLOT 1, DIRT IN SLOT 2, SAPLINGS IN SLOT 3, COBBLESTONE IN SLOT 4")
-term.setCursorPos(5, 1)
 print("Select program. '0' runs setup, '1' runs lumberjack.")
-term.setCursorPos(8, 1)
 print("DO NOT RUN LUMBERJACK UNLESS SETUP HAS BEEN RUN FIRST")
 
 run_setup = "0"
@@ -168,7 +167,7 @@ if user_input == (run_setup) then
   for n=1,setup_and_plant do
     setup_tree_farm()
   end
-  forfive()
+  forward_five()
   setup_boundary()
   for n=1,setup_and_plant do
     replant_saplings()
@@ -183,7 +182,7 @@ elseif user_input == (run_lumberjack) then
   for n=1,treecount do
     lumberjack()
   end
-  forfive()
+  forward_five()
   turtle.up()
   turtle.turnLeft()
   turtle.turnLeft()
