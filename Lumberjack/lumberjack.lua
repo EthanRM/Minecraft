@@ -100,7 +100,6 @@ function dump_inventory()
     if turtle.getItemCount(inventory) ~= 0 then
       turtle.drop()
     end
-    turtle.drop()
   end
   turtle.turnLeft()
 end
