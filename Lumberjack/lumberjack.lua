@@ -11,26 +11,19 @@ function refuel()
   end
 end
 
-[[try to get it to work as a variable]]
---moves a turtle 5 spaces forward
-function forward_five()
-  turtle.forward()
-  turtle.forward()
-  turtle.forward()
-  turtle.forward()
-  turtle.forward()
-end
-[[function forward_multi(how_far)
+
+--moves a turtle forward a variable number of spaces
+function forward_multi(how_far)
   for i = 1, how_far do
-    turtle.forward(i)
+    turtle.forward()
   end
-end]]
+end
 
 
 --sets up an area to begin treefarming and also plants saplings
 function setup_tree_farm()
   refuel()
-  forward_five()
+  forward_multi(5)
   turtle.select(2)
   turtle.placeDown()
 end
@@ -40,7 +33,7 @@ end
 function replant_saplings()
   refuel()
   turtle.select(3)
-  forward_five()
+  forward_multi(5)
   turtle.placeDown()
 end
 
@@ -167,7 +160,7 @@ if user_input == (run_setup) then
   for n=1,setup_and_plant do
     setup_tree_farm()
   end
-  forward_five()
+  forward_multi(5)
   setup_boundary()
   for n=1,setup_and_plant do
     replant_saplings()
@@ -182,7 +175,7 @@ elseif user_input == (run_lumberjack) then
   for n=1,treecount do
     lumberjack()
   end
-  forward_five()
+  forward_multi(5)
   turtle.up()
   turtle.turnLeft()
   turtle.turnLeft()
